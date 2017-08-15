@@ -15,3 +15,5 @@ int usage(char*, int);
 void make_lowercase(std::string &);
 
 int str_to_int(std::string);
+
+void for_bounds_helper(int, int, int, int, int &, int &, int &, int &);

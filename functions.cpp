@@ -78,3 +78,40 @@ int str_to_int(string input) {
 	return result;
 
 }
+
+void for_bounds_helper(int x, int y, int width, int height, int & width_low, int & width_high, int & height_low, int & height_high) {
+
+/*	for (int search_width = (x - 1); search_width < (x + 2); ++search_width) { //TODO CHECK THE BOUNDS
+
+		for (int search_height = (y - 1); search_height < (y + 2); ++search_height) {
+		*/
+
+	if (x - 1 >= 0) {
+		width_low = x - 1;
+	}
+	else {
+		width_low = 0;
+	}
+
+	if (x + 2 <= width) {
+		width_high = x + 2;
+	}
+	else {
+		width_high = width;
+	}
+
+	if (y - 1 >= 0) {
+		height_low = y - 1;
+	}
+	else {
+		height_low = 0;
+	}
+
+	if (y + 2 <= height) {
+		height_high = y + 2;
+	}
+	else {
+		height_high = height;
+	}
+
+}

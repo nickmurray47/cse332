@@ -2,6 +2,7 @@
 #include "Reversi.h"
 #include <sstream>
 #include "gamepiece.h"
+#include "functions.h"
 
 using namespace std;
 
@@ -101,9 +102,12 @@ bool Reversi::valid_move(int x, int y, vector<int> & swap_positions, string inpu
 
 	bool valid_moves_found = false;
 
-	for (int search_width = (x - 1); search_width < (x + 2); ++search_width) { //TODO CHECK THE BOUNDS
+	int width_low, width_high, height_low, height_high; //TODO BUILD HELPER FUNCTION TO GET FOR LOOP BOUNDS
+	for_bounds_helper(x, y, width, height, width_low, width_high, height_low, height_high);
 
-		for (int search_height = (y - 1); search_height < (y + 2); ++search_height) {
+	for (int search_width = width_low; search_width < width_high; ++search_width) { //TODO CHECK THE BOUNDS
+
+		for (int search_height = height_low; search_height < height_high; ++search_height) {
 
 			if ((x == search_width) && (y == search_height)) {
 				continue; //skip the input coordinate without using an else statement, to avoid nested clutter
@@ -120,7 +124,7 @@ bool Reversi::valid_move(int x, int y, vector<int> & swap_positions, string inpu
 				//propogate helper function does this, and stores the coords of opposing pieces to be swapped in swap_positions
 
 				if (propogate_check(search_width, search_height, delta_x, delta_y, input_piece, swap_positions)) {
-					valid_moves_found = true; //not the same as valid_moves_found = propogate(...)
+					valid_moves_found = true; //not the same as      valid_moves_found = propogate(...)
 					//this is a flag that should only ever be flipped to true if valid moves found, but not changed back to false
 				}
 			}
@@ -164,7 +168,6 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 	}
 
 	return found_valid_end;
-	//if found valid end, dump temp vector into real to be changed vector
 
 }
 

@@ -4,6 +4,7 @@
 #include "GameBase.h"
 #include "NineAlmonds.h"
 #include "MagicSquare.h"
+#include "Reversi.h"
 
 #include <algorithm>
 #include <sstream>
@@ -83,17 +84,17 @@ void GameBase::arguments(int argc, char*argv[]) {
 	string game_name(argv[(int)indices::game_name]);
 
 	if (game_name == "NineAlmonds") {
-		cout << "No way" << endl;
+		
 
 		if (argc == (int)params::min) {
-			cout << "if" << endl;
+			
 			game_type = "NineAlmonds";
-			cout << "name set, ptr next" << endl;
+			
 			game_ptr = make_shared<NineAlmonds>();
-			cout << "endif" << endl;
+			
 		}
 		else {
-			cout << "else" << endl;
+			
 			throw (int)result::wrong_argc;
 		}
 
@@ -131,6 +132,7 @@ void GameBase::arguments(int argc, char*argv[]) {
 		}
 
 		else if (argc == (int)params::max) {
+			
 			int lowest_piece = 0;
 			int dim_board = 0;
 			int n = 1; // for longest_piece
@@ -167,6 +169,26 @@ void GameBase::arguments(int argc, char*argv[]) {
 			throw (int)result::wrong_argc;
 		}
 	}
+
+	else if (game_name == "Reversi") {
+		if (argc == (int)params::max) {
+			
+			
+			
+			game_type = "Reversi";
+
+			string first_name = argv[(int)params::min];
+			string second_name = argv[(int)params::middle];
+
+			game_ptr = make_shared<Reversi>(Reversi(first_name, second_name));
+			
+		}
+		else {
+			
+			throw (int)result::wrong_argc;
+		}
+	}
+
 	else {
 		throw (int)result::unrecognized_arg;
 	}

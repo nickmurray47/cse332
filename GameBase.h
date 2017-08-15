@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <memory> //for using a smart pointer 
-#include <iostream>
+
 #include <vector>
 #include <fstream>
 #include <string>

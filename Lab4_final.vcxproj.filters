@@ -45,6 +45,9 @@
     <ClInclude Include="NineAlmonds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Reversi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -70,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="NineAlmonds.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Reversi.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

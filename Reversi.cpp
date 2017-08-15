@@ -75,18 +75,31 @@ int Reversi::turn() {
 
 //NOTE: THIS DOES NOT VALIDATE INPUT COORDINATES
 //ONLY PASS THIS FUNCTION VALID INDICES ----------------------------------------------------
+
+//directly called by stalemate, which has found a piece already at this position and doesn't care about finding pieces to swap
 bool Reversi::valid_move(int x, int y) {
-	
+
 	int input_linear_coord = (x*width) + y; //the position of this coordinate pair in the board vector
 	string input_piece = board[input_linear_coord].piece_display;
+
+	vector<int> dummy; //stalemate doesn't care, but overload requires this, and writing yet another overload would be a mess
+
+	return valid_move(x, y, dummy, input_piece);
+}
+
+//called indirectly from stalemate via overloaded counterpart, called directly by user attempting to place piece
+bool Reversi::valid_move(int x, int y, vector<int> & swap_positions, string input_piece) {//don't forget to clear swap_positions just before the upstream call
+	
 	string opp_piece;
 
-	if (input_piece == "X") {	//CHECK PLAYER GAME PIECE TODO TODO TODO TODO
+	if (input_piece == "X") {
 		opp_piece = "O";
 	}
 	else {
 		opp_piece = "X";
 	}
+
+	bool valid_moves_found = false;
 
 	for (int search_width = (x - 1); search_width < (x + 2); ++search_width) { //TODO CHECK THE BOUNDS
 
@@ -101,20 +114,27 @@ bool Reversi::valid_move(int x, int y) {
 			if (board[curr_linear_coord].piece_display == opp_piece) {
 				int delta_x = search_width - x;
 				int delta_y = search_height - y;
-//				propogate_check(search_width, search_height, delta_x, delta_y, input_color);
-				//call propogate
+				//scan all squares around a proposed piece placement; if there is a piece of the opposite team in one of these
+				//squares, a valid move is possible but still not known: must propogate further in that direction and see if there
+				//is a line of opposing pieces capped by a piece of the player's team
+				//propogate helper function does this, and stores the coords of opposing pieces to be swapped in swap_positions
+
+				if (propogate_check(search_width, search_height, delta_x, delta_y, input_piece, swap_positions)) {
+					valid_moves_found = true; //not the same as valid_moves_found = propogate(...)
+					//this is a flag that should only ever be flipped to true if valid moves found, but not changed back to false
+				}
 			}
-
-
 		}
-
 	}
+
+	return valid_moves_found;
 
 }
 
-bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y, string piece_str) {
+bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y, string piece_str, vector<int> & swap_positions) {
 
 	bool found_valid_end = false;
+	vector<int> possible_swapped_pieces;
 
 	while ((start_x < width) && (start_y < height) && (start_x >= 0) && (start_y >= 0)) {
 		int curr_index = (start_x * width) + start_y;
@@ -128,7 +148,7 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 			break;
 		}
 		else { //must be piece of other color
-			//push into temp vector
+			possible_swapped_pieces.push_back(curr_index); //store pieces that may need to be swapped from opposing team to user's team
 		}
 
 		start_x += delta_x;
@@ -136,6 +156,14 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 
 	}
 
+	if (found_valid_end) {
+		for (int i = 0; i < possible_swapped_pieces.size(); ++i) {
+			swap_positions.push_back(possible_swapped_pieces[i]);
+		}
+
+	}
+
+	return found_valid_end;
 	//if found valid end, dump temp vector into real to be changed vector
 
 }

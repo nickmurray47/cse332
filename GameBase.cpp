@@ -24,48 +24,56 @@ GameBase::GameBase(int x, int y) : GameBase(x, y, (int)params::default_space) {}
 GameBase::GameBase(int x, int y, int n) : width(x), height(y), longest_piece(n), turn_counter(0), board(vector<gamepiece>()) {
 
 	cout << "GameBase constructor" << endl;
-	cout << GameBase::game_type << endl;
-	
 	string filename(GameBase::game_type);
 	filename.append(".txt");
-
 	ifstream savefile(filename);
+	cout << filename << endl;
 
-	if (!savefile.is_open()) {
-		throw (int)result::fail_open_file;
-	}
+	if (savefile) { // if file exists
+		cout << "File exists" << endl;
+		cout << '\n' << flush;
+		if (!savefile.is_open()) {
+			throw (int)result::fail_open_file;
+		}
+		string first_line;
+		getline(savefile, first_line);
+		if (first_line != "NO DATA") {
 
-	string first_line;
-	getline(savefile, first_line);
-	if (first_line != "NO DATA") {
-		
-		string piece_count_str;
-		getline(savefile, piece_count_str);
-		int num_pieces = str_to_int(piece_count_str);
+			string piece_count_str;
+			getline(savefile, piece_count_str);
+			int num_pieces = str_to_int(piece_count_str);
 
-		for (int i = 0; i < num_pieces; ++i) {
-			string curr_piece;
-			getline(savefile, curr_piece);
-			if (curr_piece.empty()) {
-				board.push_back(gamepiece("empty", piece_color::no_color, " "));
+			for (int i = 0; i < num_pieces; ++i) {
+				string curr_piece;
+				getline(savefile, curr_piece);
+				if (curr_piece.empty()) {
+					board.push_back(gamepiece("empty", piece_color::no_color, " "));
+				}
+				else {
+					board.push_back(gamepiece(curr_piece, piece_color::no_color, curr_piece));
+				}
 			}
-			else {
-				board.push_back(gamepiece(curr_piece, piece_color::no_color, curr_piece));
-			}
+
+			string loaded_turn_str;
+			getline(savefile, loaded_turn_str); //this discards an empty line
+			getline(savefile, loaded_turn_str);
+			turn_counter = str_to_int(loaded_turn_str);
+
+			cout << "Load complete!" << endl;
+
+			GameBase::loaded_from_file = true;
+
 		}
 
-		string loaded_turn_str;
-		getline(savefile, loaded_turn_str); //this discards an empty line
-		getline(savefile, loaded_turn_str);
-		turn_counter = str_to_int(loaded_turn_str);
-		
-		cout << "Load complete!" << endl;
-
-		GameBase::loaded_from_file = true;
-
+		savefile.close();
 	}
-
-	savefile.close();
+	else {
+		cout << "File does not exist, create file" << endl;
+		ofstream create_file;
+		create_file.open(filename);
+		create_file << "NO DATA";
+		create_file.close();
+	}
 
 };
 

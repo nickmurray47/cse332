@@ -149,7 +149,41 @@ bool Reversi::stalemate() {
 }
 
 int Reversi::turn() {
-	return 0;
+	unsigned int a = 0, b = 0;
+	unsigned int &x = a, &y = b;
+
+	//Player_turn is false (0) if it's black's turn and true (1) if it's white's turn
+
+	cout << "Move: " << player_Turn << endl;
+	//check if there are any valid moves for the player 
+
+	while (true) {
+		int prompt_result = GameBase::prompt(x, y);
+
+		//check if move is valid
+
+		if (prompt_result == (int)result::success) {
+			if (player_Turn == "black") {
+				player_Turn = "white";
+			}
+			break;
+		}
+		else if (prompt_result == (int)result::user_quit) {
+			return (int)result::user_quit;
+		}
+	}
+	cout << x << y << endl;
+
+	// if player = white, string is white 
+	// if player= black, string is black
+
+	// change all pieces that are returned in the vector
+	// for (auto it = vector.... ){
+	// board[it] = X
+	// board[it] = O
+
+	cout << "Move: " << player_Turn << endl;
+	return (int)result::success;
 }
 
 //NOTE: THIS DOES NOT VALIDATE INPUT COORDINATES

@@ -62,7 +62,7 @@ std::ostream & Reversi::print_gameboard(std::ostream & o) const {
 	return o;
 }
 
-bool Reversi::done() {
+bool Reversi::done() { //TODO according to write-up this may need changing, but I think it misses an edge case that ours handles
 
 	if (stalemate()) {
 		return true; //handle the possible edge case of both players have the same number of pieces and being caught in a stalemate
@@ -92,7 +92,8 @@ bool Reversi::done() {
 		if ((black_counter + white_counter) == (width*height)) {
 			return true; //one player has more pieces and the board is full
 		}
-		else {
+		else { //TODO is this redundant? we've already checked stalemate() at the top of this function
+			//handle edge case where num pieces is not equal for both players, but there are no valid moves left
 			bool no_valid_moves = true;
 			for (int i = 0; i < board.size(); ++i) {
 				if (board[i].piece_display != " ") {
@@ -111,7 +112,40 @@ bool Reversi::done() {
 }
 
 bool Reversi::stalemate() {
+
+	int black_counter = 0;
+	int white_counter = 0;
+
+	for (int i = 0; i < board.size(); ++i) {
+		if (board[i].piece_display == "X") {
+			++black_counter;
+		}
+		else if (board[i].piece_display == "O") {
+			++white_counter;
+		}
+	}
+
+	if (white_counter == black_counter) {
+
+		if ((black_counter + white_counter) == (width*height)) {
+			return true; //board is full and players both have the same number of pieces, so stalemate
+		}
+		else { //board is not full, but both players have the same # of pieces; must check if any valid moves are left
+			bool no_valid_moves = true;
+			for (int i = 0; i < board.size(); ++i) {
+				if (board[i].piece_display != " ") { //if a piece exists at this location
+					if (valid_move(i)) {
+						no_valid_moves = false; //only ever flip to false, to track if there's at least one valid move somewhere
+					}
+				}
+			}
+			return no_valid_moves;
+		}
+		
+	}
+
 	return false;
+
 }
 
 int Reversi::turn() {

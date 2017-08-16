@@ -16,7 +16,7 @@ private:
 	std::string player_black, player_white;
 	gamepiece black_piece = gamepiece("black", piece_color::black, "X");                //fix
 	gamepiece white_piece = gamepiece("white", piece_color::white, "O");                //initialize in constructor
-	bool valid_move(int, int);
+	bool valid_move(int);
 	bool valid_move(int, int, std::vector<int> &, std::string);
 	bool propogate_check(int, int, int, int, std::string, std::vector<int> &);
 };

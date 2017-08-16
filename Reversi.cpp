@@ -63,7 +63,51 @@ std::ostream & Reversi::print_gameboard(std::ostream & o) const {
 }
 
 bool Reversi::done() {
+
+	if (stalemate()) {
+		return true; //handle the possible edge case of both players have the same number of pieces and being caught in a stalemate
+	}
+
+	int black_counter = 0;
+	int white_counter = 0;
+
+	for (int i = 0; i < board.size(); ++i) {
+		if (board[i].piece_display == "X") {
+			++black_counter;
+		}
+		else if (board[i].piece_display == "O") {
+			++white_counter;
+		}
+	}
+
+	if ((black_counter == 0) || (white_counter == 0)) {
+		return true; //board can't be empty, so this conditional means one of the players has removed all their opponent's pieces & won
+	}
+
+	if (black_counter == white_counter) { //this may belong as part of the else case
+		return false; //same number of pieces, but not a stalemate, so they can keep playing and the game isn't done
+	}
+
+	if ((black_counter > white_counter) || (black_counter < white_counter)) {
+		if ((black_counter + white_counter) == (width*height)) {
+			return true; //one player has more pieces and the board is full
+		}
+		else {
+			bool no_valid_moves = true;
+			for (int i = 0; i < board.size(); ++i) {
+				if (board[i].piece_display != " ") {
+					if (valid_move(i)) {
+						no_valid_moves = false; //only ever flip to false, to track if there's at least one valid move somewhere
+					}
+				}
+			}
+			return no_valid_moves;
+		}
+	}
+	
+	cout << "You shouldn't be here- Reversi::done()" << endl;
 	return false;
+	
 }
 
 bool Reversi::stalemate() {
@@ -77,15 +121,16 @@ int Reversi::turn() {
 //NOTE: THIS DOES NOT VALIDATE INPUT COORDINATES
 //ONLY PASS THIS FUNCTION VALID INDICES ----------------------------------------------------
 
-//directly called by stalemate, which has found a piece already at this position and doesn't care about finding pieces to swap
-bool Reversi::valid_move(int x, int y) {
+//directly called by done/stalemate, which has found a piece already at this position and doesn't care about finding pieces to swap
+bool Reversi::valid_move(int input_linear_coord) {
 
-	int input_linear_coord = (x*width) + y; //the position of this coordinate pair in the board vector
 	string input_piece = board[input_linear_coord].piece_display;
 
-	vector<int> dummy; //stalemate doesn't care, but overload requires this, and writing yet another overload would be a mess
+	vector<int> dummy; // done/stalemate don't care, but overload requires this, and writing yet another overload would be a mess
+	int y_coord = input_linear_coord % 8;
+	int x_coord = (input_linear_coord - y_coord) / 8;
 
-	return valid_move(x, y, dummy, input_piece);
+	return valid_move(x_coord, y_coord, dummy, input_piece);
 }
 
 //called indirectly from stalemate via overloaded counterpart, called directly by user attempting to place piece
@@ -102,10 +147,10 @@ bool Reversi::valid_move(int x, int y, vector<int> & swap_positions, string inpu
 
 	bool valid_moves_found = false;
 
-	int width_low, width_high, height_low, height_high; //TODO BUILD HELPER FUNCTION TO GET FOR LOOP BOUNDS
+	int width_low, width_high, height_low, height_high; 
 	for_bounds_helper(x, y, width, height, width_low, width_high, height_low, height_high);
 
-	for (int search_width = width_low; search_width < width_high; ++search_width) { //TODO CHECK THE BOUNDS
+	for (int search_width = width_low; search_width < width_high; ++search_width) { 
 
 		for (int search_height = height_low; search_height < height_high; ++search_height) {
 

@@ -238,6 +238,9 @@ int GameBase::play() {
 			return (int)result::stalemate;
 		}
 	}
+
+	std::cout << "stale:" << stalemate() << "done: " << done() << endl;
+
 	std::cout << "You win! Game finished in " << turn_counter << " turns" << endl;
 	return (int)result::success;
 }

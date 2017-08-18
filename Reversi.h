@@ -19,5 +19,6 @@ private:
 	bool valid_move(int);
 	bool valid_move(int, int, std::vector<int> &, std::string);
 	bool propogate_check(int, int, int, int, std::string, std::vector<int> &);
-	std::string player_Turn = "black"; //fix?
+	std::string player_Turn = "X"; //fix?
+	bool turn_helper(std::string);
 };

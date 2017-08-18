@@ -54,7 +54,7 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	/*
+	
 	try {
 		result = get_game->play();
 	}
@@ -88,9 +88,11 @@ int main(int argc, char * argv[])
 	if (result != (int)result::success) {
 		return result;
 	}
-	*/
+	
 
-	get_game->print();
+	//get_game->print();
+	//get_game->turn();
+	//get_game->print();
 
 	//string a = "nick", b = "john";
 	//Reversi game = Reversi(a, b);

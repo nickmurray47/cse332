@@ -1,7 +1,11 @@
 ﻿  Reversi.cpp
-  Generating Code...
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(113): error C4716: 'Reversi::valid_move': must return a value
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(141): error C4716: 'Reversi::propogate_check': must return a value
-  Skipping... (no relevant changes detected)
-  Lab4_final.cpp
-  GameBase.cpp
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(75): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(99): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(120): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(139): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(159): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(223): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(232): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(346): warning C4018: '<': signed/unsigned mismatch
+  Lab4_final.vcxproj -> \\warehouse2.seasad.wustl.edu\home\johnegarza\My Documents\Visual Studio 2015\Projects\Lab4_final\Debug\Lab4_final.exe
+  Lab4_final.vcxproj -> \\warehouse2.seasad.wustl.edu\home\johnegarza\My Documents\Visual Studio 2015\Projects\Lab4_final\Debug\Lab4_final.pdb (Full PDB)

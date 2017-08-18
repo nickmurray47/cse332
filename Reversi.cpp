@@ -3,6 +3,7 @@
 #include <sstream>
 #include "gamepiece.h"
 #include "functions.h"
+#include <iostream>
 
 using namespace std;
 
@@ -64,9 +65,9 @@ std::ostream & Reversi::print_gameboard(std::ostream & o) const {
 
 bool Reversi::done() { //TODO according to write-up this may need changing, but I think it misses an edge case that ours handles
 
-	if (stalemate()) {
-		return true; //handle the possible edge case of both players have the same number of pieces and being caught in a stalemate
-	}
+//	if (stalemate()) {
+//		return true; //handle the possible edge case of both players have the same number of pieces and being caught in a stalemate
+//	}
 
 	int black_counter = 0;
 	int white_counter = 0;
@@ -125,15 +126,18 @@ bool Reversi::stalemate() {
 		}
 	}
 
+	cout << "black pieces: " << black_counter << " white pieces: " << white_counter << endl;
+
 	if (white_counter == black_counter) {
 
 		if ((black_counter + white_counter) == (width*height)) {
+			cout << "full board- message from Reversi::stalemate()" << endl;
 			return true; //board is full and players both have the same number of pieces, so stalemate
 		}
 		else { //board is not full, but both players have the same # of pieces; must check if any valid moves are left
 			bool no_valid_moves = true;
 			for (int i = 0; i < board.size(); ++i) {
-				if (board[i].piece_display != " ") { //if a piece exists at this location
+				if (board[i].piece_display == " ") { //if a piece exists at this location
 					if (valid_move(i)) {
 						no_valid_moves = false; //only ever flip to false, to track if there's at least one valid move somewhere
 					}
@@ -148,23 +152,88 @@ bool Reversi::stalemate() {
 
 }
 
+bool Reversi::turn_helper (string player_piece){
+	
+	bool player_has_valid_moves = false;
+
+	for (int i = 0; i < board.size(); ++i) {
+		if (board[i].piece_display == " ") {
+
+			
+			vector<int> dummy;
+			int y_coord = i % 8;
+			int x_coord = (i - y_coord) / 8;
+
+			if (valid_move(x_coord, y_coord, dummy, player_piece)) {
+				player_has_valid_moves = true;
+			}
+
+		}
+	}
+
+	return player_has_valid_moves;
+}
+
 int Reversi::turn() {
 	unsigned int a = 0, b = 0;
 	unsigned int &x = a, &y = b;
 
 	//Player_turn is false (0) if it's black's turn and true (1) if it's white's turn
 
-	cout << "Move: " << player_Turn << endl;
-	//check if there are any valid moves for the player 
+	if (player_Turn == "X") {
+		cout << "Player " << player_black << "'s turn" << endl;
+		if (!(turn_helper(player_Turn))) {
+			cout << "No valid moves, skipping turn" << endl;
+			player_Turn = "O";
+			return 0; //FIX WITH SOMETHING USEFUL TODO TODO TODO TODO
+		}
+	}
+	else {
+		cout << "Player " << player_white << "'s turn" << endl;
+		if (!(turn_helper(player_Turn))) {
+			cout << "No valid moves, skipping turn" << endl;
+			player_Turn = "X";
+			return 0; //FIX WITH SOMETHING USEFUL TODO TODO TODO TODO
+		}
+	}
+
+	//if player has a valid move, then continually prompt for correct coordinates
 
 	while (true) {
 		int prompt_result = GameBase::prompt(x, y);
 
 		//check if move is valid
 
-		if (prompt_result == (int)result::success) {
-			if (player_Turn == "black") {
-				player_Turn = "white";
+		vector<int> pieces_to_remove;
+
+		if (!(valid_move(x, y, pieces_to_remove, player_Turn))) {
+			cout << "Not a valid move!" << endl;
+			continue;
+		}
+
+		cout << "prompt result: " << prompt_result << endl;
+
+		if (prompt_result == (int)result::success) { //TODO WORK HERE
+
+			int placed_piece_coord = (x*width) + y;
+
+			if (player_Turn == "X") {
+				board[placed_piece_coord] = black_piece;
+				cout << "size of remove vector" << pieces_to_remove.size() << endl;
+				for (int i = 0; i < pieces_to_remove.size(); ++i) {
+					board[i] = black_piece;
+				}
+				player_Turn = "O";
+			}
+			else {
+				board[placed_piece_coord] = white_piece;
+				cout << "size of remove vector" << pieces_to_remove.size() << endl;
+
+				for (int i = 0; i < pieces_to_remove.size(); ++i) {
+					board[i] = white_piece;
+				}
+
+				player_Turn = "X";
 			}
 			break;
 		}
@@ -173,6 +242,7 @@ int Reversi::turn() {
 		}
 	}
 	cout << x << y << endl;
+	cout << *this << endl;
 
 	// if player = white, string is white 
 	// if player= black, string is black
@@ -182,7 +252,6 @@ int Reversi::turn() {
 	// board[it] = X
 	// board[it] = O
 
-	cout << "Move: " << player_Turn << endl;
 	return (int)result::success;
 }
 

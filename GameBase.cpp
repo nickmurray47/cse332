@@ -11,7 +11,7 @@
 #include <fstream>
 using namespace std;
 
-//GameBase::GameBase(int x, int y) : width(x), height(y), longest_piece((int)params::default_space), turn_counter(0), board(vector<gamepiece>()) {};
+
 
 shared_ptr<GameBase> GameBase::game_ptr = nullptr;
 
@@ -25,15 +25,11 @@ GameBase::GameBase(int x, int y) : GameBase(x, y, (int)params::default_space) {}
 
 GameBase::GameBase(int x, int y, int n) : width(x), height(y), longest_piece(n), turn_counter(0), board(vector<gamepiece>()) {
 
-	cout << "GameBase constructor" << endl;
 	string filename(GameBase::game_type);
 	filename.append(".txt");
 	ifstream savefile(filename);
-	cout << filename << endl;
 
 	if (savefile) { // if file exists
-		cout << "File exists" << endl;
-		cout << '\n' << flush;
 		if (!savefile.is_open()) {
 			throw (int)result::fail_open_file;
 		}
@@ -75,7 +71,6 @@ GameBase::GameBase(int x, int y, int n) : width(x), height(y), longest_piece(n),
 		savefile.close();
 	}
 	else {
-		cout << "File does not exist, create file" << endl;
 		ofstream create_file;
 		create_file.open(filename);
 		create_file << "NO DATA";
@@ -136,12 +131,10 @@ void GameBase::arguments(int argc, char*argv[]) {
 					
 				}
 				else {
-					cout << "Hit1" << endl;
 					throw (int)result::extraction_fail;
 				}
 			}
 			else {
-				cout << "Hit2" << endl;
 				throw (int)result::extraction_fail;
 			}
 		}
@@ -171,12 +164,10 @@ void GameBase::arguments(int argc, char*argv[]) {
 					
 				}
 				else {
-					cout << "Hit3" << endl;
 					throw (int)result::extraction_fail;
 				}
 			}
 			else {
-				cout << "Hit4" << endl;
 				throw (int)result::extraction_fail;
 			}
 		}
@@ -223,7 +214,6 @@ int GameBase::play() {
 	//method to begin playing game and handle 1. done 2. stalemate or 3. quit 
 
 	print();
-	//make sure stalemate and done work correctly 
 	while ((!stalemate()) && (!done())) {
 		int turn_result = turn();
 		++turn_counter;
@@ -260,7 +250,6 @@ int GameBase::prompt(unsigned int &horizontal, unsigned int &vertical) {
 			getline(cin, input);
 		}
 		if (input == "quit") {
-			cout << "quit entered in prompt" << endl; 
 			return (int)result::user_quit;
 		}
 		replace(input.begin(), input.end(), ',', ' ');
@@ -313,7 +302,6 @@ void GameBase::save_game() {
 				throw (int)result::fail_close_file;
 			}
 
-			//return (int)result::success;
 			return;
 		}
 
@@ -334,7 +322,7 @@ void GameBase::save_game() {
 			if (!(savefile << board.size() << "\n")) {
 				throw (int)result::file_write_fail;
 			}
-			for (int i = 0; i < board.size(); ++i) {
+			for (unsigned int i = 0; i < board.size(); ++i) {
 				if (!(savefile << board[i].piece_display << "\n")) {
 					throw (int)result::file_write_fail;
 				}
@@ -352,7 +340,6 @@ void GameBase::save_game() {
 				throw (int)result::fail_close_file;
 			}
 
-			//return (int)result::success;
 			return;
 
 		}

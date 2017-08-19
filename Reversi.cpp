@@ -98,14 +98,14 @@ bool Reversi::done() { //TODO according to write-up this may need changing, but 
 		else { //TODO is this redundant? we've already checked stalemate() at the top of this function
 			//handle edge case where num pieces is not equal for both players, but there are no valid moves left
 			bool no_valid_moves = true;
-			cout << "hit 1 " << endl;
+			//cout << "hit 1 " << endl;
 			for (auto it = board.begin(); it != board.end(); it++) {
-				if ((*it).piece_display != " ") {
-					cout << "hit 2 " << endl;
+				if ((*it).piece_display == " ") { //CHANGED from: !=
+					//cout << "hit 2 " << endl;
 					int index = std::distance(board.begin(), it); // gets the iterator position, linear coordinate
 					if (valid_move(index)) { // if a valid move exists
 						//no_valid_moves = false; 
-						cout << "Inside valid move index " << endl; 
+						//cout << "Inside valid move index " << endl; 
 						return false; 
 					}
 				}
@@ -269,14 +269,18 @@ int Reversi::turn() {
 bool Reversi::valid_move(int input_linear_coord) {
 
 	string input_piece = board[input_linear_coord].piece_display;
-	cout << "Inside valid move int" << endl; 
+	//cout << "Inside valid move int" << endl; 
 	vector<int> dummy; // done/stalemate don't care, but overload requires this, and writing yet another overload would be a mess
 	int y_coord = input_linear_coord % 8;
-	cout <<"y: "<< y_coord << endl; 
+	//cout <<"y: "<< y_coord << endl; 
 	int x_coord = (input_linear_coord - y_coord) / 8;
-	cout << "x: " << x_coord << endl;
+	//cout << "x: " << x_coord << endl;
 
-	return valid_move(x_coord, y_coord, dummy, input_piece);
+	//ADDED THIS
+	bool X_result= valid_move(x_coord, y_coord, dummy, "X");
+	bool O_result= valid_move(x_coord, y_coord, dummy, "O");
+
+	return (X_result || O_result); 
 }
 
 //called indirectly from stalemate via overloaded counterpart, called directly by user attempting to place piece
@@ -307,10 +311,10 @@ bool Reversi::valid_move(int x, int y, vector<int> & swap_positions, string inpu
 			int curr_linear_coord = (search_width*width) + search_height;
 
 			if (board[curr_linear_coord].piece_display == opp_piece) {
-				cout << "Found opposing piece at: " << curr_linear_coord << endl; 
+				//cout << "Found opposing piece at: " << curr_linear_coord << endl; 
 				int delta_x = search_width - x;
 				int delta_y = search_height - y;
-				cout << "delta_x: " << delta_x << " delta_y: " << delta_y << endl; 
+				//cout << "delta_x: " << delta_x << " delta_y: " << delta_y << endl; 
 				//scan all squares around a proposed piece placement; if there is a piece of the opposite team in one of these
 				//squares, a valid move is possible but still not known: must propogate further in that direction and see if there
 				//is a line of opposing pieces capped by a piece of the player's team
@@ -339,7 +343,7 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 		
 		// here's the issue
 		if (curr_piece == piece_str) {
-			cout << "Found valid end" << endl; 
+			//cout << "Found valid end" << endl; 
 			found_valid_end = true;
 			break;
 		}
@@ -348,7 +352,7 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 		}
 		else { //must be piece of other color
 			possible_swapped_pieces.push_back(curr_index); //store pieces that may need to be swapped from opposing team to user's team
-			cout << "Piece has been pushed back at: " << curr_index << endl; 
+			//cout << "Piece has been pushed back at: " << curr_index << endl; 
 		}
 
 		start_x += delta_x;

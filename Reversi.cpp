@@ -76,6 +76,15 @@ bool Reversi::done() {
 	int black_counter = 0;
 	int white_counter = 0;
 
+
+	string the_winner = " ";
+	if (player_Turn == "X") {
+		the_winner = "O";
+	}
+	else {
+		the_winner = "X";
+	}
+
 	for (unsigned int i = 0; i < board.size(); ++i) {
 		if (board[i].piece_display == "X") {
 			++black_counter;
@@ -86,14 +95,14 @@ bool Reversi::done() {
 	}
 
 	if ((black_counter == 0) || (white_counter == 0)) {
-		cout << "Winner: " << player_Turn << endl; 
+		cout << "Winner: " << the_winner << endl; 
 		return true; //board can't be empty, so this conditional means one of the players has removed all their opponent's pieces & won
 	}
 
 
 	if ((black_counter > white_counter) || (black_counter < white_counter)) {
 		if ((black_counter + white_counter) == (width*height)) {
-			cout << "Winner: " << player_Turn << endl;
+			cout << "Winner: " << the_winner << endl;
 			return true; //one player has more pieces and the board is full
 		}
 		else { 
@@ -112,7 +121,7 @@ bool Reversi::done() {
 				}
 			}
 			if (no_valid_moves) {
-				cout << "Winner: " << player_Turn << endl;
+				cout << "Winner: " << the_winner << endl;
 				return true;
 			}
 			else {

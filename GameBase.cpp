@@ -253,6 +253,7 @@ int GameBase::prompt(unsigned int &horizontal, unsigned int &vertical) {
 			getline(cin, input);
 		}
 		if (input == "quit") {
+			cout << "quit entered in prompt" << endl; 
 			return (int)result::user_quit;
 		}
 		replace(input.begin(), input.end(), ',', ' ');

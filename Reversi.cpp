@@ -64,11 +64,7 @@ std::ostream & Reversi::print_gameboard(std::ostream & o) const {
 }
 
 bool Reversi::done() { //TODO according to write-up this may need changing, but I think it misses an edge case that ours handles
-
-//	if (stalemate()) {
-//		return true; //handle the possible edge case of both players have the same number of pieces and being caught in a stalemate
-//	}
-	cout << "Inside done" << endl; 
+ 
 	int black_counter = 0;
 	int white_counter = 0;
 
@@ -110,15 +106,6 @@ bool Reversi::done() { //TODO according to write-up this may need changing, but 
 					}
 				}
 			}
-
-			/*for (int i = 0; i < board.size(); ++i) {
-				if (board[i].piece_display != " ") {
-					if (valid_move(i)) {
-						no_valid_moves = false; //only ever flip to false, to track if there's at least one valid move somewhere
-					}
-				}
-			}
-			*/
 			cout << "Return no valid moves" << endl; 
 			return no_valid_moves;
 		}
@@ -133,7 +120,6 @@ bool Reversi::stalemate() {
 
 	int black_counter = 0;
 	int white_counter = 0;
-	cout << "Inside stalemate" << endl; 
 	for (int i = 0; i < board.size(); ++i) {
 		if (board[i].piece_display == "X") {
 			++black_counter;
@@ -198,7 +184,7 @@ int Reversi::turn() {
 	//Player_turn is false (0) if it's black's turn and true (1) if it's white's turn
 
 	if (player_Turn == "X") {
-		cout << "Player " << player_black << "'s turn" << endl;
+		cout << "Player " << player_black << "'s turn with X pieces" << endl;
 		if (!(turn_helper(player_Turn))) {
 			cout << "No valid moves, skipping turn" << endl;
 			player_Turn = "O";
@@ -206,7 +192,7 @@ int Reversi::turn() {
 		}
 	}
 	else {
-		cout << "Player " << player_white << "'s turn" << endl;
+		cout << "Player " << player_white << "'s turn with O pieces" << endl;
 		if (!(turn_helper(player_Turn))) {
 			cout << "No valid moves, skipping turn" << endl;
 			player_Turn = "X";
@@ -222,6 +208,10 @@ int Reversi::turn() {
 		//check if move is valid
 		cout << x << " " << y << endl; 
 		vector<int> pieces_to_remove;
+
+		if (prompt_result == (int)result::user_quit) {
+			return (int)result::user_quit;
+		}
 
 		if (!(valid_move(x, y, pieces_to_remove, player_Turn))) {
 			cout << "Not a valid move!" << endl;
@@ -253,9 +243,6 @@ int Reversi::turn() {
 				player_Turn = "X";
 			}
 			break;
-		}
-		else if (prompt_result == (int)result::user_quit) {
-			return (int)result::user_quit;
 		}
 	}
 	cout << *this << endl;

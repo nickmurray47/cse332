@@ -119,7 +119,7 @@ bool NineAlmonds::stalemate() {
 		if (board[i].piece_display == "A") {
 
 			int y = i % width;
-			int x = (i - y1) / width;
+			int x = (i - y)/width; 
 			int width_low, width_high, height_low, height_high; 
 			for_bounds_helper(x, y, width, height, width_low, width_high, height_low, height_high);
 

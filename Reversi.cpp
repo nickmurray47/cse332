@@ -76,7 +76,7 @@ bool Reversi::done() {
 	int black_counter = 0;
 	int white_counter = 0;
 
-	for (int i = 0; i < board.size(); ++i) {
+	for (unsigned int i = 0; i < board.size(); ++i) {
 		if (board[i].piece_display == "X") {
 			++black_counter;
 		}
@@ -129,7 +129,7 @@ bool Reversi::stalemate() {
 
 	int black_counter = 0;
 	int white_counter = 0;
-	for (int i = 0; i < board.size(); ++i) {
+	for (unsigned int i = 0; i < board.size(); ++i) {
 		if (board[i].piece_display == "X") {
 			++black_counter;
 		}
@@ -148,7 +148,7 @@ bool Reversi::stalemate() {
 		}
 		else { //board is not full, but both players have the same # of pieces; must check if any valid moves are left
 			bool no_valid_moves = true;
-			for (int i = 0; i < board.size(); ++i) {
+			for (unsigned int i = 0; i < board.size(); ++i) {
 				if (board[i].piece_display == " ") {
 					if (valid_move(i)) {
 						no_valid_moves = false; //only ever flip to false, to track if there's at least one valid move somewhere
@@ -168,7 +168,7 @@ bool Reversi::turn_helper (string player_piece){
 	
 	bool player_has_valid_moves = false;
 
-	for (int i = 0; i < board.size(); ++i) {
+	for (unsigned int i = 0; i < board.size(); ++i) {
 		if (board[i].piece_display == " ") {
 
 			
@@ -341,7 +341,7 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 	}
 
 	if (found_valid_end) {
-		for (int i = 0; i < possible_swapped_pieces.size(); ++i) {
+		for (unsigned int i = 0; i < possible_swapped_pieces.size(); ++i) {
 			swap_positions.push_back(possible_swapped_pieces[i]);
 		}
 

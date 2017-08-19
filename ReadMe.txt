@@ -2,11 +2,11 @@
     CONSOLE APPLICATION : Lab4_final Project Overview
 ========================================================================
 
-AppWizard has created this Lab4_final application for you.
+Final lab for CSE 332 that uses a shared smart pointer to dynamically allocate instances
+of a GameBase abstract class that lets the user play any of the 3 games - NineAlmonds,
+MagicSquare, and Reversi.
 
-This file contains a summary of what you will find in each of the files that
-make up your Lab4_final application.
-
+Each game can be saved to an output file and Reversi is a two-player game. 
 
 Lab4_final.vcxproj
     This is the main project file for VC++ projects generated using an Application Wizard.

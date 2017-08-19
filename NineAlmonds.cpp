@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iostream>
 #include <algorithm>
+#include "functions.h"
 
 using namespace std;
 
@@ -90,7 +91,7 @@ bool NineAlmonds::done() {
 	//for every position in vector gameboard, check if empty 
 	bool check = true;
 	for (int i = 0; i < width*height; i++) {
-		if (board[i].piece_display == "A") {
+		if ((board[i].piece_display == "A") && (i != 12 )) {
 			check = false;
 		}
 	}
@@ -110,27 +111,52 @@ bool NineAlmonds::stalemate() {
 		return false;
 	}
 	// if there are valid moves, return false, there is a stalemate if a piece exists
-	// that is not adjacent to any other pieces 
+	// that is not adjacent to any other pieces
+
+	bool stalemate_check = true;
+
 	for (int i = 0; i < width*height; i++) {
 		if (board[i].piece_display == "A") {
-			for (int j = 0; j < width*height; j++) {
-				if (board[j].piece_display == " ") {
-					int y1 = i / width;
-					int x1 = i % width;
-					int y2 = j / width;
-					int x2 = j % width;
-					bool stale_result = stale_move(x1, y1, x2, y2);
-					//look for a true statement if possible moves 
-					if (stale_result) {
-						return false;
+
+			int y = i % width;
+			int x = (i - y1) / width;
+			int width_low, width_high, height_low, height_high; 
+			for_bounds_helper(x, y, width, height, width_low, width_high, height_low, height_high);
+
+			for (int search_width = width_low; search_width < width_high; ++search_width) { 
+
+				for (int search_height = height_low; search_height < height_high; ++search_height) {
+
+					if ((x == search_width) && (y == search_height)) {
+						continue; //skip the input coordinate without using an else statement, to avoid nested clutter
+					}
+
+					int curr_linear_coord = (search_width*width) + search_height;
+
+					if (board[curr_linear_coord].piece_display == "A") {
+						int delta_x = search_width - x;
+						int delta_y = search_height - y;
+
+						int check_x = x + (2*delta_x);
+						int check_y = y + (2*delta_y);
+
+						if (check_x >= 0 && check_x < width && check_y >= 0 && check_y < height) {
+
+							int check_lin_coord = (check_x * width) + check_y;
+							if(board[check_lin_coord].piece_display == " ") {
+								stalemate_check = false;
+							}
+						}
 					}
 				}
 			}
 		}
 	}
-	// return true if there is a stalemate  
-	return true;
+	return stalemate_check;
 }
+
+
+
 
 bool NineAlmonds::stale_move(int x1, int y1, int x2, int y2) {
 	// pass the first square's parameters and second square's

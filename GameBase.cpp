@@ -19,6 +19,8 @@ string GameBase::game_type = "Unset";
 
 bool GameBase::loaded_from_file = false;
 
+string GameBase::player_turn = "Not set";
+
 GameBase::GameBase(int x, int y) : GameBase(x, y, (int)params::default_space) {};
 
 GameBase::GameBase(int x, int y, int n) : width(x), height(y), longest_piece(n), turn_counter(0), board(vector<gamepiece>()) {
@@ -58,6 +60,11 @@ GameBase::GameBase(int x, int y, int n) : width(x), height(y), longest_piece(n),
 			getline(savefile, loaded_turn_str); //this discards an empty line
 			getline(savefile, loaded_turn_str);
 			turn_counter = str_to_int(loaded_turn_str);
+
+			string which_player;
+			getline(savefile, which_player);
+
+			GameBase::player_turn = which_player;
 
 			cout << "Load complete!" << endl;
 
@@ -335,6 +342,10 @@ void GameBase::save_game() {
 			if (!(savefile << "\n" << turn_counter)) {
 				throw (int)result::file_write_fail;
 			}
+			if (!(savefile << "\n" << GameBase::player_turn)) {
+				throw (int)result::file_write_fail;
+			}
+
 			savefile.close();
 
 			if (savefile.is_open()) {

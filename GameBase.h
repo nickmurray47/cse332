@@ -47,6 +47,7 @@ protected:
 	int turn_counter;
 	static std::string game_type;
 	static bool loaded_from_file;
+	static std::string player_turn;
 };
 
 #endif 

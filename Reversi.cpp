@@ -7,22 +7,30 @@
 
 using namespace std;
 
+
 Reversi::Reversi(std::string name1, std::string name2) : GameBase(8,8), player_black(name1), player_white(name2) {
 
-	for (int i = 0; i < width*height; ++i) {
-		board.push_back(gamepiece("empty", piece_color::no_color, " "));
+
+	if (!GameBase::loaded_from_file) {
+		for (int i = 0; i < width*height; ++i) {
+			board.push_back(gamepiece("empty", piece_color::no_color, " "));
+		}
+
+		int index1 = 27;
+		int index2 = 36;
+		int index3 = 28;
+		int index4 = 35;
+
+		board[index1] = black_piece;
+		board[index2] = black_piece;
+		board[index3] = white_piece;
+		board[index4] = white_piece;
+
+		player_Turn = "X";
+		GameBase::player_turn = "X";
 	}
 
-	int index1 = 27;
-	int index2 = 36;
-	int index3 = 28;
-	int index4 = 35;
-
-	board[index1] = black_piece;
-	board[index2] = black_piece;
-	board[index3] = white_piece;
-	board[index4] = white_piece;
-
+	player_Turn = GameBase::player_turn;
 }
 
 void Reversi::print() {
@@ -188,6 +196,7 @@ int Reversi::turn() {
 		if (!(turn_helper(player_Turn))) {
 			cout << "No valid moves, skipping turn" << endl;
 			player_Turn = "O";
+			GameBase::player_turn = "O";
 			return 0; //FIX WITH SOMETHING USEFUL TODO TODO TODO TODO
 		}
 	}
@@ -196,6 +205,7 @@ int Reversi::turn() {
 		if (!(turn_helper(player_Turn))) {
 			cout << "No valid moves, skipping turn" << endl;
 			player_Turn = "X";
+			GameBase::player_turn = "X";
 			return 0; //FIX WITH SOMETHING USEFUL TODO TODO TODO TODO
 		}
 	}
@@ -230,6 +240,7 @@ int Reversi::turn() {
 					board[(*it)] = black_piece;
 				}
 				player_Turn = "O";
+				GameBase::player_turn = "O";
 			}
 			else {
 				board[placed_piece_coord] = white_piece;
@@ -241,6 +252,7 @@ int Reversi::turn() {
 					board[(*it)] = white_piece;
 				}
 				player_Turn = "X";
+				GameBase::player_turn = "X";
 			}
 			break;
 		}

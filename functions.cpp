@@ -42,7 +42,7 @@ int parse_input(vector<string> &v, const char *s) {
 
 // a usage function in case the wrong number of arguments is entered
 int usage(char*program_name, int argc) {
-	cout << "Usage: " << program_name << " NineAlmonds OR \n" << program_name << " MagicSquare [board dimension] [minimum piece value]" << endl;
+	cout << "Usage: " << program_name << " NineAlmonds OR \n" << program_name << " MagicSquare [board dimension] [minimum piece value] OR \n" << program_name << " Reversi <Player1> <Player2>" << endl;
 	// usage must return an int
 	return (int)result::wrong_argc;
 }

@@ -1,11 +1,8 @@
 ﻿  Reversi.cpp
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(75): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(99): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(120): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(139): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(159): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(223): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(232): warning C4018: '<': signed/unsigned mismatch
-\\warehouse2.seasad.wustl.edu\home\johnegarza\my documents\visual studio 2015\projects\lab4_final\lab4_final\reversi.cpp(346): warning C4018: '<': signed/unsigned mismatch
-  Lab4_final.vcxproj -> \\warehouse2.seasad.wustl.edu\home\johnegarza\My Documents\Visual Studio 2015\Projects\Lab4_final\Debug\Lab4_final.exe
-  Lab4_final.vcxproj -> \\warehouse2.seasad.wustl.edu\home\johnegarza\My Documents\Visual Studio 2015\Projects\Lab4_final\Debug\Lab4_final.pdb (Full PDB)
+\\warehouse2.seasad.wustl.edu\home\nicholasmurray\my documents\visual studio 2015\projects\332_lab\332_lab\reversi.cpp(75): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\nicholasmurray\my documents\visual studio 2015\projects\332_lab\332_lab\reversi.cpp(137): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\nicholasmurray\my documents\visual studio 2015\projects\332_lab\332_lab\reversi.cpp(156): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\nicholasmurray\my documents\visual studio 2015\projects\332_lab\332_lab\reversi.cpp(176): warning C4018: '<': signed/unsigned mismatch
+\\warehouse2.seasad.wustl.edu\home\nicholasmurray\my documents\visual studio 2015\projects\332_lab\332_lab\reversi.cpp(360): warning C4018: '<': signed/unsigned mismatch
+  Lab4_final.vcxproj -> \\warehouse2.seasad.wustl.edu\home\nicholasmurray\My Documents\Visual Studio 2015\Projects\332_lab\332_lab\Debug\Lab4_final.exe
+  Lab4_final.vcxproj -> \\warehouse2.seasad.wustl.edu\home\nicholasmurray\My Documents\Visual Studio 2015\Projects\332_lab\332_lab\Debug\Lab4_final.pdb (Full PDB)

@@ -216,8 +216,6 @@ int GameBase::play() {
 	//method to begin playing game and handle 1. done 2. stalemate or 3. quit 
 
 	print();
-	
-
 	//make sure stalemate and done work correctly 
 	while ((!stalemate()) && (!done())) {
 		int turn_result = turn();
@@ -238,9 +236,6 @@ int GameBase::play() {
 			return (int)result::stalemate;
 		}
 	}
-
-	std::cout << "stale:" << stalemate() << "done: " << done() << endl;
-
 	std::cout << "You win! Game finished in " << turn_counter << " turns" << endl;
 	return (int)result::success;
 }

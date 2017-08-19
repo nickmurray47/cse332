@@ -68,7 +68,7 @@ bool Reversi::done() { //TODO according to write-up this may need changing, but 
 //	if (stalemate()) {
 //		return true; //handle the possible edge case of both players have the same number of pieces and being caught in a stalemate
 //	}
-
+	cout << "Inside done" << endl; 
 	int black_counter = 0;
 	int white_counter = 0;
 
@@ -82,6 +82,7 @@ bool Reversi::done() { //TODO according to write-up this may need changing, but 
 	}
 
 	if ((black_counter == 0) || (white_counter == 0)) {
+		cout << "Black and White counters are 0" << endl; 
 		return true; //board can't be empty, so this conditional means one of the players has removed all their opponent's pieces & won
 	}
 
@@ -91,18 +92,34 @@ bool Reversi::done() { //TODO according to write-up this may need changing, but 
 
 	if ((black_counter > white_counter) || (black_counter < white_counter)) {
 		if ((black_counter + white_counter) == (width*height)) {
+			cout << "One Player has more pieces and the board is full" << endl;
 			return true; //one player has more pieces and the board is full
 		}
 		else { //TODO is this redundant? we've already checked stalemate() at the top of this function
 			//handle edge case where num pieces is not equal for both players, but there are no valid moves left
 			bool no_valid_moves = true;
-			for (int i = 0; i < board.size(); ++i) {
+			cout << "hit 1 " << endl;
+			for (auto it = board.begin(); it != board.end(); it++) {
+				if ((*it).piece_display != " ") {
+					cout << "hit 2 " << endl;
+					int index = std::distance(board.begin(), it); // gets the iterator position, linear coordinate
+					if (valid_move(index)) { // if a valid move exists
+						//no_valid_moves = false; 
+						cout << "Inside valid move index " << endl; 
+						return false; 
+					}
+				}
+			}
+
+			/*for (int i = 0; i < board.size(); ++i) {
 				if (board[i].piece_display != " ") {
 					if (valid_move(i)) {
 						no_valid_moves = false; //only ever flip to false, to track if there's at least one valid move somewhere
 					}
 				}
 			}
+			*/
+			cout << "Return no valid moves" << endl; 
 			return no_valid_moves;
 		}
 	}
@@ -116,7 +133,7 @@ bool Reversi::stalemate() {
 
 	int black_counter = 0;
 	int white_counter = 0;
-
+	cout << "Inside stalemate" << endl; 
 	for (int i = 0; i < board.size(); ++i) {
 		if (board[i].piece_display == "X") {
 			++black_counter;
@@ -203,36 +220,36 @@ int Reversi::turn() {
 		int prompt_result = GameBase::prompt(x, y);
 
 		//check if move is valid
-
+		cout << x << " " << y << endl; 
 		vector<int> pieces_to_remove;
 
 		if (!(valid_move(x, y, pieces_to_remove, player_Turn))) {
 			cout << "Not a valid move!" << endl;
 			continue;
 		}
-
-		cout << "prompt result: " << prompt_result << endl;
-
+	
 		if (prompt_result == (int)result::success) { //TODO WORK HERE
 
 			int placed_piece_coord = (x*width) + y;
-
 			if (player_Turn == "X") {
 				board[placed_piece_coord] = black_piece;
-				cout << "size of remove vector" << pieces_to_remove.size() << endl;
-				for (int i = 0; i < pieces_to_remove.size(); ++i) {
-					board[i] = black_piece;
+				cout << "size of remove vector: " << pieces_to_remove.size() << endl;
+				for (auto it = pieces_to_remove.begin(); it != pieces_to_remove.end(); it++) {
+					cout << "it: " << *it << endl;
+					cout << "board at it: " << board[(*it)] << endl;
+					board[(*it)] = black_piece;
 				}
 				player_Turn = "O";
 			}
 			else {
 				board[placed_piece_coord] = white_piece;
-				cout << "size of remove vector" << pieces_to_remove.size() << endl;
+				cout << "size of remove vector: " << pieces_to_remove.size() << endl;
 
-				for (int i = 0; i < pieces_to_remove.size(); ++i) {
-					board[i] = white_piece;
+				for (auto it = pieces_to_remove.begin(); it != pieces_to_remove.end(); it++) {
+					cout << "it: " << *it << endl;
+					cout << "i: " << board[(*it)] << endl;
+					board[(*it)] = white_piece;
 				}
-
 				player_Turn = "X";
 			}
 			break;
@@ -241,17 +258,7 @@ int Reversi::turn() {
 			return (int)result::user_quit;
 		}
 	}
-	cout << x << y << endl;
 	cout << *this << endl;
-
-	// if player = white, string is white 
-	// if player= black, string is black
-
-	// change all pieces that are returned in the vector
-	// for (auto it = vector.... ){
-	// board[it] = X
-	// board[it] = O
-
 	return (int)result::success;
 }
 
@@ -262,10 +269,12 @@ int Reversi::turn() {
 bool Reversi::valid_move(int input_linear_coord) {
 
 	string input_piece = board[input_linear_coord].piece_display;
-
+	cout << "Inside valid move int" << endl; 
 	vector<int> dummy; // done/stalemate don't care, but overload requires this, and writing yet another overload would be a mess
 	int y_coord = input_linear_coord % 8;
+	cout <<"y: "<< y_coord << endl; 
 	int x_coord = (input_linear_coord - y_coord) / 8;
+	cout << "x: " << x_coord << endl;
 
 	return valid_move(x_coord, y_coord, dummy, input_piece);
 }
@@ -298,8 +307,10 @@ bool Reversi::valid_move(int x, int y, vector<int> & swap_positions, string inpu
 			int curr_linear_coord = (search_width*width) + search_height;
 
 			if (board[curr_linear_coord].piece_display == opp_piece) {
+				cout << "Found opposing piece at: " << curr_linear_coord << endl; 
 				int delta_x = search_width - x;
 				int delta_y = search_height - y;
+				cout << "delta_x: " << delta_x << " delta_y: " << delta_y << endl; 
 				//scan all squares around a proposed piece placement; if there is a piece of the opposite team in one of these
 				//squares, a valid move is possible but still not known: must propogate further in that direction and see if there
 				//is a line of opposing pieces capped by a piece of the player's team
@@ -326,7 +337,9 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 		int curr_index = (start_x * width) + start_y;
 		string curr_piece = board[curr_index].piece_display;
 		
+		// here's the issue
 		if (curr_piece == piece_str) {
+			cout << "Found valid end" << endl; 
 			found_valid_end = true;
 			break;
 		}
@@ -335,6 +348,7 @@ bool Reversi::propogate_check(int start_x, int start_y, int delta_x, int delta_y
 		}
 		else { //must be piece of other color
 			possible_swapped_pieces.push_back(curr_index); //store pieces that may need to be swapped from opposing team to user's team
+			cout << "Piece has been pushed back at: " << curr_index << endl; 
 		}
 
 		start_x += delta_x;

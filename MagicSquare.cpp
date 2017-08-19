@@ -37,7 +37,7 @@ MagicSquare::MagicSquare(int board_dimension, int lowest_piece, int long_piece) 
 	}
 	else { //if a board was loaded from file, remove placed pieces from available vector and add to used vector
 	
-		for (int i = 0; i < board.size(); ++i) {
+		for (unsigned int i = 0; i < board.size(); ++i) {
 			if (board[i].piece_display != " ") { //there is an actual piece here
 				gamepiece used = gamepiece(board[i].piece_name, board[i].gp_color, board[i].piece_display);
 				available_pieces.erase(std::remove(available_pieces.begin(), available_pieces.end(), used), available_pieces.end());
